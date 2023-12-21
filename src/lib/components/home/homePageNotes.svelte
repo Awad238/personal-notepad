@@ -2,6 +2,7 @@
 	type NotesDataType = {
 		title: string;
 		notePreview?: string | null;
+		createdAt?: string | Date;
 	}[];
 	export let notesData: NotesDataType = [];
 </script>
@@ -21,6 +22,7 @@
 						>
 					</p>
 					<p class="hidden md:line-clamp-2 lg:line-clamp-4">{data.notePreview}</p>
+					<p class="text-[0.75rem] mt-2 text-gray-600 hidden md:block">{data.createdAt}</p>
 				</div>
 
 				<div class="px-2 md:absolute md:bottom-1 md:w-full">

@@ -7,44 +7,23 @@
 			title: 'Title for one',
 			notePreview: `Notes Preview Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quia
                 quos aliquam non? Minima ullam fugiat iusto facere non aliquid quibusdam modi nobis
-                beatae id, dolores illo aliquam quia perspiciatis!`
+                beatae id, dolores illo aliquam quia perspiciatis!`,
+			createdAt: new Date().toLocaleString()
 		},
 		{
 			title: 'Title for one',
 			notePreview: `Notes Preview Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quia
                 quos aliquam non? Minima ullam fugiat iusto facere non aliquid quibusdam modi nobis
-                beatae id, dolores illo aliquam quia perspiciatis!`
+                beatae id, dolores illo aliquam quia perspiciatis!`,
+			createdAt: new Date().toLocaleString()
 		},
 		{
 			title: 'Title for one',
 			notePreview: `Notes Preview Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quia
                 quos aliquam non? Minima ullam fugiat iusto facere non aliquid quibusdam modi nobis
-                beatae id, dolores illo aliquam quia perspiciatis!`
+                beatae id, dolores illo aliquam quia perspiciatis!`,
+			createdAt: new Date().toLocaleString()
 		},
-		{
-			title: 'Title for one',
-			notePreview: `Notes Preview Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quia
-                quos aliquam non? Minima ullam fugiat iusto facere non aliquid quibusdam modi nobis
-                beatae id, dolores illo aliquam quia perspiciatis!`
-		},
-		{
-			title: 'Title for one',
-			notePreview: `Notes Preview Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quia
-                quos aliquam non? Minima ullam fugiat iusto facere non aliquid quibusdam modi nobis
-                beatae id, dolores illo aliquam quia perspiciatis!`
-		},
-		{
-			title: 'Title for one',
-			notePreview: `Notes Preview Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quia
-                quos aliquam non? Minima ullam fugiat iusto facere non aliquid quibusdam modi nobis
-                beatae id, dolores illo aliquam quia perspiciatis!`
-		},
-		{
-			title: 'Title for one',
-			notePreview: `Notes Preview Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quia
-                quos aliquam non? Minima ullam fugiat iusto facere non aliquid quibusdam modi nobis
-                beatae id, dolores illo aliquam quia perspiciatis!`
-		}
 	];
 </script>
 

@@ -6,7 +6,7 @@
 <div class="border-0 p-2 mx-4 my-0 md:mx-8 lg:mx-12 shadow-0">
 	<slot />
 	<!-- Nav Links -->
-	<div class="flex items-center justify-center my-16 border">
+	<!-- <div class="flex items-center justify-center my-16 border">
 		<a href="/">
 			<span
 				><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -17,5 +17,5 @@
 				></span
 			>
 		</a>
-	</div>
+	</div> -->
 </div>
