@@ -1,6 +1,10 @@
 <script lang="ts">
 	import HomePageNotes from '$lib/components/home/homePageNotes.svelte';
 	import SearchBar from '$lib/components/home/searchBar.svelte';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
+	console.log(data.notes)
 
 	const mockData = [
 		{
@@ -54,4 +58,4 @@
 </div>
 
 <!-- Notes Preview -->
-<HomePageNotes notesData={mockData} />
+<HomePageNotes notes={data.notes} />

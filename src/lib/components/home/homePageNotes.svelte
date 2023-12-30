@@ -1,14 +1,13 @@
 <script lang="ts">
-	type NotesDataType = {
-		title: string;
-		notePreview?: string | null;
-		createdAt?: string | Date;
-	}[];
-	export let notesData: NotesDataType = [];
+	import type { Notes } from "$lib/db";
+	import { page } from "$app/stores";
+	console.log(page)
+	export let notes: Notes;
+	const middot = '&middot;'
 </script>
 
 <ul class="space-y-4 md:grid md:grid-cols-3 md:gap-6 md:space-y-0 md:min-h-[40-rem] lg:grid-cols-5">
-	{#each notesData as data}
+	{#each notes as note}
 		<li
 			class="border py-1 rounded hover:shadow-md md:hover:scale-105 md:relative md:bg-indigo-100 md:min-h-[12rem] lg:min-h-[14rem]"
 		>
@@ -18,11 +17,11 @@
 						<a
 							href="/#"
 							class="hover:underline underline-offset-2 decoration-dotted decoration-black/25"
-							>{data.title}</a
+							>{note.title}</a
 						>
 					</p>
-					<p class="hidden md:line-clamp-2 lg:line-clamp-4">{data.notePreview}</p>
-					<p class="text-[0.75rem] mt-2 text-gray-600 hidden md:block">{data.createdAt}</p>
+					<p class="hidden md:line-clamp-2 lg:line-clamp-4">{note.content.length >= 64 ? note.content.substring(0, 64) : note.content}</p>
+					<p class="text-[0.75rem] mt-2 text-gray-600 hidden md:block text-opacity-75">{note.createdAt !== undefined ? `${new Date(note.createdAt).toLocaleDateString()} · ${new Date(note.createdAt).toLocaleTimeString()}` : ""}</p>
 				</div>
 
 				<div class="px-2 md:absolute md:bottom-1 md:w-full">
