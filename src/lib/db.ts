@@ -6,6 +6,7 @@ export type Note = {
     content: string;
     createdAt?: number | Date;
     lastModified?: number | Date
+    _id?: number | string
 }
 
 export type Notes = Note[]
@@ -33,8 +34,7 @@ export function getOneNote(id: string): Note | null {
     const query = notes.query().equalTo('_id', id)
     let result = query.find()
     if (result.length !== 0) {
-        let { _id, ...note } = result[0]
-        return note as Note
+        return result[0] as Note
     } 
     return null
 }
@@ -43,7 +43,7 @@ export function getOneNote(id: string): Note | null {
 export function addNote(newNote: Note): string {
     const note = database.collection<Note>('notes')
 
-    // set createdAt Data
+    // set createdAt, lastModified
     const now = Date.now()
     newNote.createdAt = now
     newNote.lastModified = now

@@ -4,31 +4,7 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	console.log(data.notes)
-
-	const mockData = [
-		{
-			title: 'Title for one',
-			notePreview: `Notes Preview Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quia
-                quos aliquam non? Minima ullam fugiat iusto facere non aliquid quibusdam modi nobis
-                beatae id, dolores illo aliquam quia perspiciatis!`,
-			createdAt: new Date().toLocaleString()
-		},
-		{
-			title: 'Title for one',
-			notePreview: `Notes Preview Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quia
-                quos aliquam non? Minima ullam fugiat iusto facere non aliquid quibusdam modi nobis
-                beatae id, dolores illo aliquam quia perspiciatis!`,
-			createdAt: new Date().toLocaleString()
-		},
-		{
-			title: 'Title for one',
-			notePreview: `Notes Preview Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quia
-                quos aliquam non? Minima ullam fugiat iusto facere non aliquid quibusdam modi nobis
-                beatae id, dolores illo aliquam quia perspiciatis!`,
-			createdAt: new Date().toLocaleString()
-		},
-	];
+	// console.log(data.notes)
 </script>
 
 <!-- Search Bar -->
@@ -57,5 +33,6 @@
 	</button>
 </div>
 
+<h3 class="font-bold text-xl underline decoration-dotted underline-offset-2 decoration-neutral-500 hover:decoration-neutral-800 tracking-wide mb-4">Recent</h3>
 <!-- Notes Preview -->
 <HomePageNotes notes={data.notes} />
