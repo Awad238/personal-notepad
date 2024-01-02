@@ -7,8 +7,8 @@
 	let noteTitle: string = "";
 
 	export let data: PageData;
+	// console.log(data.notes)
 
-	// functions
 	const saveNewNote = async () => {
 		console.log(noteTitle)
 		let response = await fetch("/api/save-new-note", {
@@ -29,7 +29,7 @@
 </script>
 
 <svelte:head>
-	<title>Notes</title>
+	<title>All Notes</title>
 </svelte:head>
 
 
@@ -60,7 +60,7 @@
 	</button>
 </div>
 
-<h3 class="font-bold text-xl underline decoration-dotted underline-offset-2 decoration-neutral-500 hover:decoration-neutral-800 tracking-wide mb-4">Recent</h3>
+<h3 class="font-bold text-xl underline decoration-dotted underline-offset-2 decoration-neutral-500 hover:decoration-neutral-800 tracking-wide mb-4">All Notes</h3>
 <!-- Notes Preview -->
 <HomePageNotes notes={data.notes} />
 

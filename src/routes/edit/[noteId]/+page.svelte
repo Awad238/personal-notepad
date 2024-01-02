@@ -3,9 +3,9 @@
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import type { Note } from '$lib/db';
+	import { goto } from '$app/navigation';
 	export let data: PageData;
 	let source = data.note?.content;
-	// console.log(data.note);
 
 	// auto-save note every minute
 	onMount(() => {
@@ -32,7 +32,6 @@
 	const saveNote = async () => {
 		let note: Note = data.note!
 		note.content = source!
-		// note.lastModified = Date.now() // automatically done by the server?
 		let response = await fetch("/api/auto-save", {
 			method: "POST",
 			body: JSON.stringify(note)
@@ -43,6 +42,16 @@
 		if (result) {
 			alert("Saved!")
 		}
+	}
+
+	const deleteNote = async () => {
+		const response = await fetch(`/api/delete-note/${data.note?._id}`, {
+			method: "DELETE"
+		})
+		const result = await response.json()
+		console.log(result)
+		if (result.message === true) return goto("/")
+		else alert("Note was not deleted")
 	}
 </script>
 
@@ -64,7 +73,7 @@
 			</span>
 		</p>
 	</button>
-	<button class="border-0 px-4 py-2 shadow rounded bg-red-500 text-white h-10 scale-90">
+	<button class="border-0 px-4 py-2 shadow rounded bg-red-500 text-white h-10 scale-90" on:click={deleteNote}>
 		<p class="flex">
 			Delete
 			<span class="pl-1">
