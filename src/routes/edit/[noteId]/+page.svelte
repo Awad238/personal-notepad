@@ -1,12 +1,13 @@
 <script lang="ts">
 	import NotesRenderer from '$lib/components/new-notes/notesRenderer.svelte';
-	import EditNoteBar from '$lib/components/editNoteAction/editNoteBar.svelte';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import type { Note } from '$lib/db';
 	import { goto } from '$app/navigation';
 	export let data: PageData;
 	let source = data.note?.content;
+	let showCheatSheetModal = true;
+	// let showCheatSheetModal = false;
 
 	// auto-save note every minute
 	onMount(() => {
@@ -53,16 +54,161 @@
 		if (result.message === true) return goto('/');
 		else alert('Note was not deleted');
 	};
+
+	const exportNote = () => {
+		let rawMarkdown = document.getElementById('RawMarkdown') as HTMLTextAreaElement;
+		const blob = new Blob([rawMarkdown?.value], {
+			type: 'text/x-markdown'
+		});
+
+		let dlLink = document.createElement('a');
+		dlLink.download = `${data.note?.title}.md`;
+		const downloadUrl = window.URL.createObjectURL(blob);
+		dlLink.href = downloadUrl;
+		dlLink.click();
+		setTimeout(() => {
+			console.log(`Revoking url: ${downloadUrl}`);
+			window.URL.revokeObjectURL(downloadUrl);
+			console.log(`Revoked!`);
+		}, 2000);
+	};
 </script>
 
 <svelte:head>
 	<title>{data.note?.title}</title>
 </svelte:head>
 
-<EditNoteBar />
+<div hidden={showCheatSheetModal}>
+	<!-- Component: Modal with title & text -->
+	<!-- Modal with title & text -->
+	<!-- Modal backdrop -->
+	<div
+		class="fixed top-0 left-0 z-20 flex items-center justify-center w-screen h-screen bg-slate-300/20 backdrop-blur-sm"
+		aria-labelledby="header-3a content-3a"
+		aria-modal="true"
+		tabindex="-1"
+		role="dialog"
+	>
+		<!-- Modal -->
+		<div
+			class="flex max-h-[90vh] w-11/12 max-w-xl flex-col gap-6 overflow-hidden rounded bg-white p-6 text-slate-500 shadow-xl shadow-slate-700/10"
+			id="modal"
+			role="document"
+		>
+			<!-- Modal header -->
+			<header id="header-3a" class="flex items-center gap-4">
+				<h3 class="flex-1 text-xl font-medium text-slate-700">Help & CheatSheet</h3>
+				<button
+					class="inline-flex items-center justify-center h-10 gap-2 px-5 text-sm font-medium tracking-wide transition duration-300 rounded-full focus-visible:outline-none justify-self-center whitespace-nowrap text-indigo-500 hover:bg-indigo-100 hover:text-indigo-600 focus:bg-indigo-200 focus:text-indigo-700 disabled:cursor-not-allowed disabled:text-indigo-300 disabled:shadow-none disabled:hover:bg-transparent"
+					aria-label="close dialog"
+					on:click={() => {
+						showCheatSheetModal === false
+							? (showCheatSheetModal = true)
+							: (showCheatSheetModal = false);
+					}}
+				>
+					<span class="relative only:-mx-5">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="w-5 h-5"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							stroke-width="1.5"
+							role="graphics-symbol"
+							aria-labelledby="title-79 desc-79"
+						>
+							<title id="title-79">Icon title</title>
+							<desc id="desc-79">A more detailed description of the icon</desc>
+							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+						</svg>
+					</span>
+				</button>
+			</header>
+			<p>Note is automatically saved every minute.</p>
+			<!-- Modal body -->
+			<div class="flex-1 overflow-auto">
+				<h1>Markdown CheatSheet</h1>
+				<ul>
+					<li class="text-sm py-1">
+						&middot; Heading H1 &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70"># text</code
+						>
+					</li>
+					<li class="text-sm py-1">
+						&middot; Heading H2 &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">## text</code
+						>
+					</li>
+					<li class="text-sm py-1">
+						&middot; Heading H3 &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">### text</code
+						>
+					</li>
+					<li class="text-sm py-1">
+						&middot; Heading H4 &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">#### text</code
+						>
+					</li>
+					<li class="text-sm py-1">
+						&middot; Heading H5 &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">##### text</code
+						>
+					</li>
+					<li class="text-sm py-1">
+						&middot; Heading H6 &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70"
+							>####### text</code
+						>
+					</li>
+					<li class="text-sm py-1">
+						&middot; Bold &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">**text**</code
+						>
+					</li>
+					<li class="text-sm py-1">
+						&middot; Italics &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">*text*</code
+						>
+					</li>
+					<li class="text-sm py-1">
+						&middot; StrikeThrough &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">~~text~~</code
+						>
+					</li>
+					<li class="text-sm py-1">
+						&middot; Break &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70"
+							>&lt;br /&gt;</code
+						>
+					</li>
+					<li class="text-sm py-1">
+						&middot; Horizontal Break &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70"
+							>&lt;hr /&gt;</code
+						>
+						or <code class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">***</code>
+					</li>
+					<li class="text-sm py-1">
+						&middot; Blockquote &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">&gt;</code
+						>
+					</li>
+					<li class="text-sm py-1">
+						&middot; Code &mdash; <code
+							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">``</code
+						> (Backticks)
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- End Modal with title & text -->
+</div>
+
 <div class="flex float-right mb-2 md:float-none">
 	<button
-		class="border-0 px-4 py-2 shadow rounded bg-indigo-400 text-white h-10 scale-90"
+		class="border-0 px-4 py-2 shadow rounded bg-indigo-500 text-white h-10 scale-90 hover:bg-indigo-600"
 		on:click={saveNote}
 	>
 		<p class="flex">
@@ -78,16 +224,66 @@
 		</p>
 	</button>
 	<button
-		class="border-0 px-4 py-2 shadow rounded bg-red-500 text-white h-10 scale-90"
-		on:click={deleteNote}
+		class="border-0 px-4 py-2 shadow rounded bg-yellow-500 text-white h-10 scale-90 hover:bg-yellow-600"
+		on:click={() => {}}
 	>
 		<p class="flex">
-			Delete
+			Import
 			<span class="pl-1">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
 					><path
 						fill="currentColor"
-						d="M13 9h5l-5-5zm2.9 12.5l-1.4-1.4l2.1-2.1l-2.1-2.1l1.4-1.4l2.1 2.1l2.1-2.1l1.4 1.4l-2.075 2.1l2.075 2.1l-1.4 1.4l-2.1-2.075zM6 22q-.825 0-1.412-.587T4 20V4q0-.825.588-1.412T6 2h8l6 6v4.35q-.475-.175-.987-.262T17.975 12q-2.5 0-4.237 1.738T12 17.975q0 1.125.4 2.163T13.55 22z"
+						d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6m-1 1.5L18.5 9H13m-2.95 2.22l2.83 2.83L15 11.93V19H7.93l2.12-2.12l-2.83-2.83"
+					/></svg
+				>
+			</span>
+		</p>
+	</button>
+	<button
+		class="border-0 px-4 py-2 shadow rounded bg-emerald-500 text-white h-10 scale-90 hover:bg-emerald-600"
+		on:click={exportNote}
+	>
+		<p class="flex">
+			Export
+			<span class="pl-1">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+					><path
+						fill="currentColor"
+						d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6m-1 1.5L18.5 9H13m-4.07 3.22H16v7.07l-2.12-2.12L11.05 20l-2.83-2.83l2.83-2.82"
+					/></svg
+				>
+			</span>
+		</p>
+	</button>
+	<button
+	class="border-0 px-4 py-2 shadow rounded bg-red-500 text-white h-10 scale-90 hover:bg-red-600"
+	on:click={deleteNote}
+>
+	<p class="flex">
+		Delete
+		<span class="pl-1">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+				><path
+					fill="currentColor"
+					d="M13 9h5l-5-5zm2.9 12.5l-1.4-1.4l2.1-2.1l-2.1-2.1l1.4-1.4l2.1 2.1l2.1-2.1l1.4 1.4l-2.075 2.1l2.075 2.1l-1.4 1.4l-2.1-2.075zM6 22q-.825 0-1.412-.587T4 20V4q0-.825.588-1.412T6 2h8l6 6v4.35q-.475-.175-.987-.262T17.975 12q-2.5 0-4.237 1.738T12 17.975q0 1.125.4 2.163T13.55 22z"
+				/></svg
+			>
+		</span>
+	</p>
+</button>
+	<button
+		class="border-0 px-4 py-2 shadow rounded bg-blue-500 text-white h-10 scale-90 hover:bg-blue-600"
+		on:click={() => {
+			showCheatSheetModal === true ? (showCheatSheetModal = false) : (showCheatSheetModal = true);
+		}}
+	>
+		<p class="flex">
+			Help
+			<span class="pl-1">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+					><path
+						fill="currentColor"
+						d="M11.95 18q.525 0 .888-.363t.362-.887q0-.525-.362-.888t-.888-.362q-.525 0-.887.363t-.363.887q0 .525.363.888t.887.362m-.9-3.85h1.85q0-.825.188-1.3t1.062-1.3q.65-.65 1.025-1.238T15.55 8.9q0-1.4-1.025-2.15T12.1 6q-1.425 0-2.312.75T8.55 8.55l1.65.65q.125-.45.563-.975T12.1 7.7q.8 0 1.2.438t.4.962q0 .5-.3.938t-.75.812q-1.1.975-1.35 1.475t-.25 1.825M12 22q-2.075 0-3.9-.787t-3.175-2.138q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22"
 					/></svg
 				>
 			</span>
@@ -98,10 +294,16 @@
 <div class=" space-y-4 md:space-y-0 md:grid grid-cols-2 gap-8 lg:gap-12">
 	<textarea
 		class="w-full border h-96 md:h-full rounded resize-none py-0.5 placeholder:text-sm px-2 shadow-sm focus:outline-none"
-		placeholder="Starting writing..."
+		placeholder="Start writing..."
 		bind:value={source}
+		id="RawMarkdown"
 	></textarea>
-	<div class="min-h-[16rem] shadow-sm border p-2 rounded border-neutral-300">
-		<NotesRenderer {source} />
-	</div>
+	{#key source}
+		<div
+			class="min-h-[16rem] shadow-sm border p-2 rounded border-neutral-300"
+			id="RenderedMarkdown"
+		>
+			<NotesRenderer {source} />
+		</div>
+	{/key}
 </div>
