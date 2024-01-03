@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Notes } from "$lib/db";
+	import type { Notes } from '$lib/db';
 	export let notes: Notes;
 	// console.log(notes)
 </script>
@@ -19,15 +19,27 @@
 								>{note.title}</a
 							>
 						</p>
-						<p class="hidden md:line-clamp-2 lg:line-clamp-4 text-sm opacity-70">{note.content.length >= 64 ? note.content.substring(0, 64) + " ..." : note.content}</p>
-						<p class="text-[0.75rem] mt-2 text-gray-600 hidden md:block text-opacity-75">{note.createdAt !== undefined ? `${new Date(note.createdAt).toLocaleDateString()} · ${new Date(note.createdAt).toLocaleTimeString()}` : ""}</p>
+						<p class="hidden md:line-clamp-2 lg:line-clamp-4 text-sm opacity-70">
+							{note.content.length >= 64 ? note.content.substring(0, 64) + ' ...' : note.content}
+						</p>
+						<p class="text-[0.75rem] mt-2 text-gray-600 hidden md:block text-opacity-75">
+							{note.createdAt !== undefined
+								? `${new Date(note.createdAt).toLocaleDateString()} · ${new Date(
+										note.createdAt
+									).toLocaleTimeString()}`
+								: ''}
+						</p>
 					</div>
 
 					<div class="px-2 md:absolute md:bottom-1 md:w-full">
 						<section class="flex justify-between mt-0.5 md:mt-0">
 							<div class="hidden md:block hover:scale-90">
 								<span
-									><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+									><svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
 										><path
 											fill="currentColor"
 											d="M3.548 20.938h16.9a.5.5 0 0 0 0-1h-16.9a.5.5 0 0 0 0 1M9.71 17.18a2.587 2.587 0 0 0 1.12-.65l9.54-9.54a1.75 1.75 0 0 0 0-2.47l-.94-.93a1.788 1.788 0 0 0-2.47 0l-9.54 9.53a2.473 2.473 0 0 0-.64 1.12L6.04 17a.737.737 0 0 0 .19.72a.767.767 0 0 0 .53.22Zm.41-1.36a1.468 1.468 0 0 1-.67.39l-.97.26l-1-1l.26-.97a1.521 1.521 0 0 1 .39-.67l.38-.37l1.99 1.99Zm1.09-1.08l-1.99-1.99l6.73-6.73l1.99 1.99Zm8.45-8.45L18.65 7.3l-1.99-1.99l1.01-1.02a.748.748 0 0 1 1.06 0l.93.94a.754.754 0 0 1 0 1.06"
@@ -37,7 +49,11 @@
 							</div>
 							<div class="flex space-x-4">
 								<span class="hover:scale-90"
-									><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+									><svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
 										><path
 											fill="currentColor"
 											d="M8.267 14.68c-.184 0-.308.018-.372.036v1.178c.076.018.171.023.302.023c.479 0 .774-.242.774-.651c0-.366-.254-.586-.704-.586m3.487.012c-.2 0-.33.018-.407.036v2.61c.077.018.201.018.313.018c.817.006 1.349-.444 1.349-1.396c.006-.83-.479-1.268-1.255-1.268"
@@ -48,7 +64,11 @@
 									></span
 								>
 								<span class="hover:scale-90"
-									><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+									><svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
 										><path
 											fill="currentColor"
 											d="M20.553 18.15H3.447a1.443 1.443 0 0 1-1.442-1.441V7.291c0-.795.647-1.441 1.442-1.441h17.105c.795 0 1.442.646 1.442 1.441v9.418a1.441 1.441 0 0 1-1.441 1.441M6.811 15.268V11.52l1.922 2.402l1.922-2.402v3.748h1.922V8.732h-1.922l-1.922 2.403l-1.922-2.403H4.889v6.535h1.922zM19.688 12h-1.922V8.732h-1.923V12h-1.922l2.884 3.364z"
@@ -62,7 +82,9 @@
 			</li>
 		{/each}
 	{:else}
-		<div class="border w-full md:border-0 md:block h-60 rounded border-dotted flex justify-center items-center">
+		<div
+			class="border w-full md:border-0 md:block h-60 rounded border-dotted flex justify-center items-center"
+		>
 			<p class="text-neutral-400 font-mono text-sm">No notes yet ...</p>
 		</div>
 	{/if}

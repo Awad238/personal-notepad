@@ -1,5 +1,6 @@
 <script lang="ts">
 	import NotesRenderer from '$lib/components/new-notes/notesRenderer.svelte';
+	import EditNoteBar from '$lib/components/editNoteAction/editNoteBar.svelte';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import type { Note } from '$lib/db';
@@ -10,57 +11,60 @@
 	// auto-save note every minute
 	onMount(() => {
 		const interval = setInterval(() => {
-            const autoSave = async () => {
-                let note: Note = data.note!
-                note.content = source!
-                note.lastModified = Date.now()
-                
-                let response = await fetch("/api/auto-save", {
-                    method: "POST",
-                    body: JSON.stringify(note)
-                })
+			const autoSave = async () => {
+				let note: Note = data.note!;
+				note.content = source!;
+				note.lastModified = Date.now();
 
-                let result = await response.json()
-            }
-            autoSave()
+				let response = await fetch('/api/auto-save', {
+					method: 'POST',
+					body: JSON.stringify(note)
+				});
+
+				let result = await response.json();
+			};
+			autoSave();
 			console.log(`Saving note at ${new Date().toLocaleString()}`);
-
 		}, 1000 * 60); // every minute
 		return () => clearInterval(interval);
 	});
 
 	const saveNote = async () => {
-		let note: Note = data.note!
-		note.content = source!
-		let response = await fetch("/api/auto-save", {
-			method: "POST",
+		let note: Note = data.note!;
+		note.content = source!;
+		let response = await fetch('/api/auto-save', {
+			method: 'POST',
 			body: JSON.stringify(note)
-		})
+		});
 
-		let result = await response
-		console.log(result)
+		let result = await response;
+		console.log(result);
 		if (result) {
-			alert("Saved!")
+			alert('Saved!');
 		}
-	}
+	};
 
 	const deleteNote = async () => {
 		const response = await fetch(`/api/delete-note/${data.note?._id}`, {
-			method: "DELETE"
-		})
-		const result = await response.json()
-		console.log(result)
-		if (result.message === true) return goto("/")
-		else alert("Note was not deleted")
-	}
+			method: 'DELETE'
+		});
+		const result = await response.json();
+		console.log(result);
+		if (result.message === true) return goto('/');
+		else alert('Note was not deleted');
+	};
 </script>
 
 <svelte:head>
-    <title>{data.note?.title}</title>
+	<title>{data.note?.title}</title>
 </svelte:head>
 
+<EditNoteBar />
 <div class="flex float-right mb-2 md:float-none">
-	<button class="border-0 px-4 py-2 shadow rounded bg-indigo-400 text-white h-10 scale-90" on:click={saveNote}>
+	<button
+		class="border-0 px-4 py-2 shadow rounded bg-indigo-400 text-white h-10 scale-90"
+		on:click={saveNote}
+	>
 		<p class="flex">
 			Save
 			<span class="pl-1">
@@ -73,7 +77,10 @@
 			</span>
 		</p>
 	</button>
-	<button class="border-0 px-4 py-2 shadow rounded bg-red-500 text-white h-10 scale-90" on:click={deleteNote}>
+	<button
+		class="border-0 px-4 py-2 shadow rounded bg-red-500 text-white h-10 scale-90"
+		on:click={deleteNote}
+	>
 		<p class="flex">
 			Delete
 			<span class="pl-1">

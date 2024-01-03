@@ -28,7 +28,7 @@ Something under hr
 </script>
 
 <svelte:head>
-    <!-- <title>{data.note?.title}</title> -->
+	<!-- <title>{data.note?.title}</title> -->
 </svelte:head>
 
 <div class="flex float-right mb-2 md:float-none">
