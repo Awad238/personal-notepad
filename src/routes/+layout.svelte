@@ -1,7 +1,10 @@
 <script>
 	import '../app.css';
+	import {Toaster} from 'svelte-sonner';
+
 </script>
 
+<Toaster richColors position="bottom-center"/>
 <main class="mb-16 mt-8">
 	<h1 class="text-2xl text-center font-bold tracking-wide mb-4"><a href="/">Personal Note</a></h1>
 	<div class="border-0 p-2 mx-4 my-0 md:mx-8 lg:mx-12 shadow-0">

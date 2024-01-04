@@ -1,13 +1,14 @@
 <script lang="ts">
 	import NotesRenderer from '$lib/components/new-notes/notesRenderer.svelte';
+	import HelpModalContent from '$lib/components/modals/HelpModalContent.svelte';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import type { Note } from '$lib/db';
 	import { goto } from '$app/navigation';
+	import { toast } from 'svelte-sonner';
 	export let data: PageData;
 	let source = data.note?.content;
 	let showCheatSheetModal = true;
-	// let showCheatSheetModal = false;
 
 	// auto-save note every minute
 	onMount(() => {
@@ -41,7 +42,7 @@
 		let result = await response;
 		console.log(result);
 		if (result) {
-			alert('Saved!');
+			toast.success('Saved!');
 		}
 	};
 
@@ -71,6 +72,11 @@
 			window.URL.revokeObjectURL(downloadUrl);
 			console.log(`Revoked!`);
 		}, 2000);
+		toast.promise(() => new Promise((resolve) => setTimeout(resolve, 4000)), {
+			loading: 'Exporting...',
+			success: 'Exported!',
+			error: 'An error occurred'
+		});
 	};
 </script>
 
@@ -128,78 +134,7 @@
 			<p>Note is automatically saved every minute.</p>
 			<!-- Modal body -->
 			<div class="flex-1 overflow-auto">
-				<h1>Markdown CheatSheet</h1>
-				<ul>
-					<li class="text-sm py-1">
-						&middot; Heading H1 &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70"># text</code
-						>
-					</li>
-					<li class="text-sm py-1">
-						&middot; Heading H2 &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">## text</code
-						>
-					</li>
-					<li class="text-sm py-1">
-						&middot; Heading H3 &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">### text</code
-						>
-					</li>
-					<li class="text-sm py-1">
-						&middot; Heading H4 &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">#### text</code
-						>
-					</li>
-					<li class="text-sm py-1">
-						&middot; Heading H5 &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">##### text</code
-						>
-					</li>
-					<li class="text-sm py-1">
-						&middot; Heading H6 &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70"
-							>####### text</code
-						>
-					</li>
-					<li class="text-sm py-1">
-						&middot; Bold &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">**text**</code
-						>
-					</li>
-					<li class="text-sm py-1">
-						&middot; Italics &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">*text*</code
-						>
-					</li>
-					<li class="text-sm py-1">
-						&middot; StrikeThrough &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">~~text~~</code
-						>
-					</li>
-					<li class="text-sm py-1">
-						&middot; Break &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70"
-							>&lt;br /&gt;</code
-						>
-					</li>
-					<li class="text-sm py-1">
-						&middot; Horizontal Break &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70"
-							>&lt;hr /&gt;</code
-						>
-						or <code class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">***</code>
-					</li>
-					<li class="text-sm py-1">
-						&middot; Blockquote &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">&gt;</code
-						>
-					</li>
-					<li class="text-sm py-1">
-						&middot; Code &mdash; <code
-							class="inline-flex px-2 border rounded bg-neutral-200 bg-opacity-70">``</code
-						> (Backticks)
-					</li>
-				</ul>
+				<HelpModalContent />
 			</div>
 		</div>
 	</div>
@@ -225,7 +160,9 @@
 	</button>
 	<button
 		class="border-0 px-4 py-2 shadow rounded bg-yellow-500 text-white h-10 scale-90 hover:bg-yellow-600"
-		on:click={() => {}}
+		on:click={() => {
+		
+		}}
 	>
 		<p class="flex">
 			Import
@@ -256,21 +193,21 @@
 		</p>
 	</button>
 	<button
-	class="border-0 px-4 py-2 shadow rounded bg-red-500 text-white h-10 scale-90 hover:bg-red-600"
-	on:click={deleteNote}
->
-	<p class="flex">
-		Delete
-		<span class="pl-1">
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-				><path
-					fill="currentColor"
-					d="M13 9h5l-5-5zm2.9 12.5l-1.4-1.4l2.1-2.1l-2.1-2.1l1.4-1.4l2.1 2.1l2.1-2.1l1.4 1.4l-2.075 2.1l2.075 2.1l-1.4 1.4l-2.1-2.075zM6 22q-.825 0-1.412-.587T4 20V4q0-.825.588-1.412T6 2h8l6 6v4.35q-.475-.175-.987-.262T17.975 12q-2.5 0-4.237 1.738T12 17.975q0 1.125.4 2.163T13.55 22z"
-				/></svg
-			>
-		</span>
-	</p>
-</button>
+		class="border-0 px-4 py-2 shadow rounded bg-red-500 text-white h-10 scale-90 hover:bg-red-600"
+		on:click={deleteNote}
+	>
+		<p class="flex">
+			Delete
+			<span class="pl-1">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+					><path
+						fill="currentColor"
+						d="M13 9h5l-5-5zm2.9 12.5l-1.4-1.4l2.1-2.1l-2.1-2.1l1.4-1.4l2.1 2.1l2.1-2.1l1.4 1.4l-2.075 2.1l2.075 2.1l-1.4 1.4l-2.1-2.075zM6 22q-.825 0-1.412-.587T4 20V4q0-.825.588-1.412T6 2h8l6 6v4.35q-.475-.175-.987-.262T17.975 12q-2.5 0-4.237 1.738T12 17.975q0 1.125.4 2.163T13.55 22z"
+					/></svg
+				>
+			</span>
+		</p>
+	</button>
 	<button
 		class="border-0 px-4 py-2 shadow rounded bg-blue-500 text-white h-10 scale-90 hover:bg-blue-600"
 		on:click={() => {

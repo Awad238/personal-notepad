@@ -36,6 +36,7 @@
 	"type": "module",
 	"dependencies": {
 		"neboa": "^0.6.1",
-		"svelte-markdown": "^0.4.0"
+		"svelte-markdown": "^0.4.0",
+		"svelte-sonner": "^0.3.10"
 	}
 }
