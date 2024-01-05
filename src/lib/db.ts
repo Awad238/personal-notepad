@@ -67,3 +67,11 @@ export function deleteNote(id: string | number): boolean {
 		return result as boolean;
 	} else return false;
 }
+
+
+export function searchNote(query: string): Notes {
+	const conn = database.collection<Note>('notes')
+	let notes = conn.query().like('title', query)
+	const result = notes.find()
+	return result
+}
