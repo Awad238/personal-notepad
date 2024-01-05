@@ -3,6 +3,7 @@
 	import SearchBar from '$lib/components/home/searchBar.svelte';
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
+	import { toast } from 'svelte-sonner';
 	let showModal: boolean = true;
 	let noteTitle: string = '';
 
@@ -10,6 +11,7 @@
 
 	// functions
 	const saveNewNote = async () => {
+		if (noteTitle === ''|| noteTitle === undefined) return toast.error("Title cannot be empty")
 		console.log(noteTitle);
 		let response = await fetch('/api/save-new-note', {
 			method: 'POST',

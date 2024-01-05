@@ -1,7 +1,29 @@
 <script lang="ts">
-	import type { Notes } from '$lib/db';
+	import type { Notes, Note } from '$lib/db';
+	import { toast } from 'svelte-sonner';
 	export let notes: Notes;
-	// console.log(notes)
+
+	const exportNote = (note: Note) => {
+		const blob = new Blob([note.content], {
+			type: 'text/x-markdown'
+		});
+
+		let dlLink = document.createElement('a');
+		dlLink.download = `${note.title}.md`;
+		const downloadUrl = window.URL.createObjectURL(blob);
+		dlLink.href = downloadUrl;
+		dlLink.click();
+		setTimeout(() => {
+			console.log(`Revoking url: ${downloadUrl}`);
+			window.URL.revokeObjectURL(downloadUrl);
+			console.log(`Revoked!`);
+		}, 2000);
+		toast.promise(() => new Promise((resolve) => setTimeout(resolve, 4000)), {
+			loading: 'Exporting...',
+			success: 'Exported!',
+			error: 'An error occurred'
+		});
+	};
 </script>
 
 <ul class="space-y-4 md:grid md:grid-cols-3 md:gap-6 md:space-y-0 md:min-h-[40-rem] lg:grid-cols-5">
@@ -48,7 +70,7 @@
 								</span>
 							</div>
 							<div class="flex space-x-4">
-								<span class="hover:scale-90"
+								<span class="hover:scale-90 hidden"
 									><svg
 										xmlns="http://www.w3.org/2000/svg"
 										width="24"
@@ -63,18 +85,20 @@
 										/></svg
 									></span
 								>
-								<span class="hover:scale-90"
-									><svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="24"
-										height="24"
-										viewBox="0 0 24 24"
-										><path
-											fill="currentColor"
-											d="M20.553 18.15H3.447a1.443 1.443 0 0 1-1.442-1.441V7.291c0-.795.647-1.441 1.442-1.441h17.105c.795 0 1.442.646 1.442 1.441v9.418a1.441 1.441 0 0 1-1.441 1.441M6.811 15.268V11.52l1.922 2.402l1.922-2.402v3.748h1.922V8.732h-1.922l-1.922 2.403l-1.922-2.403H4.889v6.535h1.922zM19.688 12h-1.922V8.732h-1.923V12h-1.922l2.884 3.364z"
-										/></svg
-									></span
-								>
+								<button on:click={() => exportNote(note)}>
+									<span class="hover:scale-90"
+										><svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="24"
+											height="24"
+											viewBox="0 0 24 24"
+											><path
+												fill="currentColor"
+												d="M20.553 18.15H3.447a1.443 1.443 0 0 1-1.442-1.441V7.291c0-.795.647-1.441 1.442-1.441h17.105c.795 0 1.442.646 1.442 1.441v9.418a1.441 1.441 0 0 1-1.441 1.441M6.811 15.268V11.52l1.922 2.402l1.922-2.402v3.748h1.922V8.732h-1.922l-1.922 2.403l-1.922-2.403H4.889v6.535h1.922zM19.688 12h-1.922V8.732h-1.923V12h-1.922l2.884 3.364z"
+											/></svg
+										></span
+									>
+								</button>
 							</div>
 						</section>
 					</div>
