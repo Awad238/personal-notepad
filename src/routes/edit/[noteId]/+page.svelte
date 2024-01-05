@@ -14,7 +14,7 @@
 
 	// ! remove me
 	$: if (importNote) {
-		console.log(importNote);
+		console.log();
 	}
 
 	// auto-save note every minute
@@ -54,13 +54,31 @@
 	};
 
 	const deleteNote = async () => {
-		const response = await fetch(`/api/delete-note/${data.note?._id}`, {
-			method: 'DELETE'
-		});
-		const result = await response.json();
-		console.log(result);
-		if (result.message === true) return goto('/');
-		else alert('Note was not deleted');
+		const confirmDelete = confirm(`Are you sure you want to delete this note: ${data.note?.title}`)
+		if (confirmDelete) {
+			try {
+				const response = await fetch(`/api/delete-note/${data.note?._id}`, {
+					method: 'DELETE'
+				});
+				const result = await response.json();
+				if (result.message === true) {
+					toast.success("Deleted!", {
+						duration: 2000
+					})
+					setTimeout(() => {
+						return goto('/')
+					}, 1500);
+				} 
+				else toast.error('Note was not deleted');
+			} catch (error) {
+				console.error(error)
+				toast.error("Could not delete this note!")
+			}
+		} else {
+			toast.info("Note was not deleted", {
+				duration: 2000
+			})
+		}
 	};
 
 	const exportNote = () => {
@@ -105,6 +123,7 @@
 	<title>{data.note?.title}</title>
 </svelte:head>
 
+<!-- Help Modal -->
 <div hidden={showCheatSheetModal}>
 	<!-- Component: Modal with title & text -->
 	<!-- Modal with title & text -->
@@ -162,6 +181,12 @@
 	<!-- End Modal with title & text -->
 </div>
 
+<!-- Title -->
+<div class="text-center font-bold text-xl tracking-wide mb-4">
+	<h2>{data.note?.title}</h2>
+</div>
+
+<!-- Buttons -->
 <div class="flex float-right mb-2 md:float-none">
 	<button
 		class="border-0 px-4 py-2 shadow rounded bg-indigo-500 text-white h-10 scale-90 hover:bg-indigo-600"
@@ -249,6 +274,7 @@
 	</button>
 </div>
 
+<!-- Content -->
 <div class=" space-y-4 md:space-y-0 md:grid grid-cols-2 gap-8 lg:gap-12">
 	<textarea
 		class="w-full border h-96 md:h-full rounded resize-none py-0.5 placeholder:text-sm px-2 shadow-sm focus:outline-none"
@@ -266,6 +292,7 @@
 	{/key}
 </div>
 
+<!-- Import Note modal -->
 <div hidden={showImportModal}>
 	<!-- Component: Modal with form -->
 	<!-- Modal backdrop -->
