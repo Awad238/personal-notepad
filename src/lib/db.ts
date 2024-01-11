@@ -10,7 +10,9 @@ export type Note = {
 
 export type Notes = Note[];
 
-const database = neboa('app.db');
+const database = neboa('app.db', {
+	fileMustExist: false
+});
 
 export function getAllNotes(): Notes {
 	const notes = database.collection<Note>('notes');

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import type { Notes, Note } from '$lib/db';
 	import { toast } from 'svelte-sonner';
 	export let notes: Notes;
@@ -55,7 +56,9 @@
 
 					<div class="px-2 md:absolute md:bottom-1 md:w-full">
 						<section class="flex justify-between mt-0.5 md:mt-0">
-							<div class="hidden md:block hover:scale-90">
+							<button class="hidden md:block hover:scale-90" on:click={() => {
+								return  goto(`/edit/${note._id}`)
+							}}>
 								<span
 									><svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +71,7 @@
 										/></svg
 									>
 								</span>
-							</div>
+							</button>
 							<div class="flex space-x-4">
 								<span class="hover:scale-90 hidden"
 									><svg
