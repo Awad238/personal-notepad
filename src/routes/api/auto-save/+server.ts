@@ -1,6 +1,7 @@
 import { editNote, type Note } from '$lib/db';
 import { json } from '@sveltejs/kit';
 
+// I got this from joyofcode
 export async function GET(event: Request): Promise<Response> {
 	// event
 	console.log(event);
@@ -8,7 +9,7 @@ export async function GET(event: Request): Promise<Response> {
 		status: 418,
 		statusText: 'I identify as a Teapot',
 		headers: {
-			X: 'Gon give it to ya'
+			X: 'Gon give it to ya' // scene from DeadPool
 		}
 	};
 	return new Response('Hello', options);

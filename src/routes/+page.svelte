@@ -4,6 +4,7 @@
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
 	import { toast } from 'svelte-sonner';
+	import { currentUser } from '$lib/store';
 	let showModal: boolean = true;
 	let noteTitle: string = '';
 
@@ -16,7 +17,9 @@
 		let response = await fetch('/api/save-new-note', {
 			method: 'POST',
 			body: JSON.stringify({
-				title: noteTitle
+				title: noteTitle,
+				content: "",
+				userId: $currentUser?._id
 			})
 		});
 

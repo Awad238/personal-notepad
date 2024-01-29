@@ -1,6 +1,15 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 	import { Toaster } from 'svelte-sonner';
+	import CurrentUser from '$lib/components/currentUser.svelte';
+	import { currentUser } from '$lib/store';
+	import { onMount } from 'svelte';
+
+	// onMount(async () => {
+		
+	// })
+
+	export const data = $currentUser
 </script>
 
 <Toaster richColors position="bottom-center" />
@@ -25,6 +34,9 @@
 			<ul class="flex space-x-4 md:space-x-8">
 				<li class="pt-1">
 					<a href="/all-notes" class="font-semibold hover:underline decoration-dotted">All Notes</a>
+				</li>
+				<li class="pt-1">
+					<CurrentUser />
 				</li>
 			</ul>
 		</div>
