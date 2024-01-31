@@ -4,8 +4,8 @@
 	import { type CurrentUser, currentUser as cu } from '$lib/store';
 
 	export let showModal: boolean = false;
-	let username: string = 'janedoe';
-	let password: string = 'secret';
+	let username: string;
+	let password: string;
 
 	const handleLogin = async () => {
 		try {
